@@ -1,8 +1,6 @@
-name: TradingView Scraper A1
+name: TradingView Scraper A5
 
 on:
-  schedule:
-    - cron: "30 11 * * 1-5"
   workflow_dispatch:
 
 jobs:
@@ -13,11 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-
       - run: npm ci
 
       - name: Create .env
@@ -29,10 +25,9 @@ jobs:
           echo "GOOGLE_SERVICE_ACCOUNT_EMAIL=${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }}" >> .env
           echo "GOOGLE_PRIVATE_KEY=\"${{ secrets.GOOGLE_PRIVATE_KEY }}\"" >> .env
           echo "ACCOUNT_START=0" >> .env
-          echo "ACCOUNT_END=450" >> .env
-          echo "BATCH_SIZE=90" >> .env
+          echo "ACCOUNT_END=1122" >> .env
+          echo "BATCH_SIZE=225" >> .env
 
-      - name: Restore cookies.json
-        run: echo "${{ secrets.COOKIES_BASE64 }}" | base64 -d > cookies.json
+      - run: echo "${{ secrets.COOKIES_BASE64 }}" | base64 -d > cookies.json
 
       - run: node index.js ${{ matrix.batch }}

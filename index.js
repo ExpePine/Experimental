@@ -79,10 +79,7 @@ async function loadCookies(page) {
 
     try {
       const values = await scrapeChart(page, url);
-      const month = values[0];
-      const day = values[1];
-      const date = `${day}/${month}/2025`;
-      const rowData = [date, ...values];
+      const rowData = [...values];
       await writeValuesToNewSheet(globalIndex, rowData);
     } catch (err) {
       console.error(` Error scraping ${url}:`, err.message);
